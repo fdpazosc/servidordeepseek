@@ -40,7 +40,7 @@ function getContentFromPDFs($directory) {
 
 $pdfDirectory = 'documentos_pdf';
 
-$pdfContent = getContentFromPDFs($pdfDirectory);
+//$pdfContent = getContentFromPDFs($pdfDirectory);
 
 //echo $pdfContent . "\n\n";
 
