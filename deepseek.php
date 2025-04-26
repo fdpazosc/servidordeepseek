@@ -1,4 +1,6 @@
 <?php
+set_time_limit(300);
+ini_set('max_execution_time', 300); // Aumenta el tiempo máximo de ejecución a 300 segundos
 
 function extractTextFromPDF($filePath) {
     /*$outputFile = tempnam(sys_get_temp_dir(), 'pdftext'); // Archivo temporal para el texto extraído
@@ -49,7 +51,7 @@ $ollamaUrl = 'http://localhost:11434/api/generate';
 
 $retorno = array(
     'success' => false,
-    'respuesta' => null,
+    'msn' => null,
     'error' => 'Error inesperado'
 );
 
@@ -60,9 +62,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prompt'])) {
     // Prepara los datos para enviar a la API de Ollama
     $data = [
         'model' => 'deepseek-r1:8b',
-        'prompt' => "You are an assistant named RODI, created by the IT Department of the Pontifical Catholic University of Ecuador.
-                     Your task is to respond accurately and in a friendly, conversational style and in the same language to the 
-                     following prompt: $prompt",
+        /*'prompt' => "You are an assistant named RODI, created by the IT Department of the Pontifical Catholic University of Ecuador.
+                     Your task is to respond accurately and in a friendly, shotly, conversational style and in the same language to the 
+                     following prompt: $prompt",*/
+        'prompt' => "You are and assistant and you have the following features:
+        
+                        1. Your name is RODI.
+                        2. Your default language is spanish.
+                        3. You generate responses in the same language in which you are given a prompt.
+                        3. You generate short responses with few words).
+                        4. You can generate responses in a friendly, conversational style.
+                        5. You were created by the IT Department of the Pontifical Catholic University of Ecuador.
+    
+                    And now you will answer to de following prompt: $prompt",
+
         'stream' => false,
     ];
     
@@ -98,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prompt'])) {
             
             // Muestra la respuesta procesada
             $retorno['success'] = true;
-            $retorno['respuesta'] = $output;
+            $retorno['msn'] = $output;
             $retorno['error'] = null;
         } else {
             $retorno['error'] = 'Error: No se encontró la clave "response" en la respuesta de Ollama.';
